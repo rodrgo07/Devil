@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <string>
+#include <string_view>
 
 namespace core::config {
 
@@ -21,5 +22,17 @@ private:
     Config config_;
     std::filesystem::path path_;
 };
+
+namespace detail {
+
+enum class ParseResult {
+    Skip,
+    Ok,
+    Malformed,
+};
+
+ParseResult parse_line(std::string_view line, std::string_view& key, std::string_view& value);
+
+}  // namespace detail
 
 }  // namespace core::config
