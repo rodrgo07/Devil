@@ -1,7 +1,5 @@
 #include "runtime.hpp"
 
-#include "../logger/logger.hpp"
-
 namespace core::runtime {
 
 namespace {
@@ -45,22 +43,18 @@ bool Runtime::initialize() {
     return true;
 }
 
-void Runtime::run() {
-    if (!transition(State::Running)) {
-        return;
-    }
+bool Runtime::run() {
+    return transition(State::Running);
 }
 
-void Runtime::stop() {
+bool Runtime::stop() {
     if (state_ == State::Stopped || state_ == State::Stopping) {
-        return;
+        return false;
     }
     if (state_ == State::Created) {
-        state_ = State::Stopped;
-        return;
+        return transition(State::Stopped);
     }
-    transition(State::Stopping);
-    transition(State::Stopped);
+    return transition(State::Stopping) && transition(State::Stopped);
 }
 
 }  // namespace core::runtime

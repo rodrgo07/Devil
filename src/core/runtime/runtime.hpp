@@ -19,8 +19,8 @@ public:
     Runtime& operator=(const Runtime&) = delete;
 
     bool initialize();
-    void run();
-    void stop();
+    bool run();
+    bool stop();
 
     State state() const noexcept { return state_; }
 

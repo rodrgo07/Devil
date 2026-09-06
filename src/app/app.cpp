@@ -37,10 +37,19 @@ int run() {
         return 1;
     }
 
-    runtime.run();
+    if (!runtime.run()) {
+        logger.log(core::logger::Level::Error, "failed to run runtime");
+        runtime.stop();
+        logger.stop();
+        return 1;
+    }
     logger.log(core::logger::Level::Info, "runtime running");
 
-    runtime.stop();
+    if (!runtime.stop()) {
+        logger.log(core::logger::Level::Error, "failed to stop runtime");
+        logger.stop();
+        return 1;
+    }
     logger.log(core::logger::Level::Info, "runtime stopped");
     logger.stop();
 
